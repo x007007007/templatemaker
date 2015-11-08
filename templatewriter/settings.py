@@ -55,7 +55,7 @@ ROOT_URLCONF = 'templatewriter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['{}/templatewriter/template'.format(BASE_DIR)],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

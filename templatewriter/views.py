@@ -6,6 +6,10 @@ from django.shortcuts import render
 import json
 
 
+class HomePage(View):
+    def get(self, request):
+        return render(request, 'homepage.html')
+
 class Show(View):
     def get(self, request):
         path = request.get('file', '')
