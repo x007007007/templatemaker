@@ -1,0 +1,129 @@
+{
+  "type": "object",
+  "title": "华为报告",
+  "required": ["individual", "summary", "测评有效性", "情绪倾向"],
+  "properties": {
+    "individual": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "gander": {
+          "type": "string",
+          "enum": ["男", "女"]
+        },
+        "age": {
+          "type": "integer"
+        },
+        "graduate_from": {
+          "type": "string"
+        },
+        "graduate_date": {
+          "type": "string"
+        },
+        "户籍": {
+          "type": "string"
+        },
+        "major": {
+          "type": "string"
+        },
+        "籍贯": {
+          "type": "string"
+        },
+        "nation": {
+          "type": "string"
+        },
+        "education": {
+          "type": "string"
+        },
+        "idcard": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "gander", "age", "graduate_from", "graduate_date",
+        "户籍", "major", "籍贯", "nation", "education", "idcard"]
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "情绪倾向型": {
+         "type": "string"
+        },
+        "测评可信度": {
+          "type": "string"
+        },
+        "情绪倾向": {
+          "type": "string"
+        },
+        "未来情绪风险等级": {
+          "type": "string"
+        },
+        "测评结果总览": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "测评有效性得分": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "情绪倾向得分": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        }
+      }
+    },
+    "测评有效性": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "title": "作答时长",
+          "type": "integer"
+        },
+        "评分倾向性": {
+          "type": "string"
+        },
+        "评分一致性": {
+          "type": "string"
+        },
+        "评分一致分": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1
+        }
+      }
+    },
+    "情绪倾向": {
+      "type": "array",
+      "items": [{
+        "type": "object",
+        "title": "维度",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": ["精力充沛", "信任他人", "抗压性", "焦虑性", "情绪控制", "乐观性", "紧张性", "乐群性", "适应性"]
+          },
+          "score": {
+            "type": "integer"
+          },
+          "positive": {
+            "type": "array",
+            "item": [{
+              "type": "string"
+            }]
+          },
+          "negative": {
+            "type": "array",
+            "item": [{
+              "type": "string"
+            }]
+          }
+        },
+        "required": ["name", "score", "positive", "negative"]
+      }]
+    }
+  }
+}

@@ -20,6 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r"^$", views.HomePage.as_view(), name='home'),
-    url(r"^show/$", views.Show.as_view(), name='show'),
+    url(r"^show/(?P<page_id>.*)/$", views.Show.as_view(), name='show'),
     url(r"^index/$", views.Index.as_view(), name='index'),
 ]

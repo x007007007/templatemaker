@@ -1,10 +1,129 @@
+{% load staticfiles  %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Template Maker</title>
+    <link href="//cdn.jsdelivr.net/foundation/5.0.2/css/foundation.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="{% static 'jsoneditor.js' %}"></script>
+    <script language="javascript" type="text/javascript">
+        JSONEditor.defaults.theme = 'foundation5';
+        JSONEditor.defaults.iconlib = 'fontawesome4';
+          $(function() {
+            $( ".action-resizable" ).resizable();
+          });
+    </script>
+    <script language="javascript" type="text/javascript">
+      function editorCreate(schema_url) {
+      var editor = new JSONEditor(document.getElementById('editor_holder'),{
+        // Enable fetching schemas via ajax
+        ajax: true,
+        schema: {
+          $ref: schema_url,
+          format: "grid"
+        },
+        // Seed the form with a starting value
+        startval: {}
+      });
+
+      $('#editor_submit').on('click',function() {
+        $("#content").val(JSON.stringify(editor.getValue()))
+        console.log(editor.getValue());
+        $("form").submit();
+      });
+
+      // Hook up the Restore to Default button
+      $('#editor_restore').on('click', function() {
+        editor.setValue(JSON.parse($("#content").val()));
+      });
+
+      // Hook up the validation indicator to update its
+      // status whenever the editor changes
+      editor.on('change',function() {
+        // Get an array of errors from the validator
+        var errors = editor.validate();
+
+        var indicator = document.getElementById('valid_indicator');
+
+        // Not valid
+        if(errors.length) {
+          indicator.className = 'label alert';
+          indicator.textContent = 'not valid';
+        }
+        // Valid
+        else {
+          indicator.className = 'label success';
+          indicator.textContent = 'valid';
+        }
+      });
+      return editor;
+    }
+    </script>
+    <script>
+    /* 高度自适应 */
+    $(function(){
+        $("iframe").on('load', function(){
+            var iframe = $("iframe")[0];
+            if (iframe) {
+                var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+                if (iframeWin.document.body) {
+                    iframe.height = (iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight) +100;
+                }
+            };
+        })
+    });
+    /*  */
+    $(function(){
+        $("nav>a").each(function(key, dom){
+            $(dom).on('click', function(){
+                $("iframe").prop('src', dom.href);
+                $("#sender").prop('action', dom.href);
+                $(dom).parent().find('.active').removeClass('active');
+                $(dom).addClass('active');
+                var editor = editorCreate(dom.href+'?type=schema');
+                console.log(editor);
+            });
+        });
+    });
+    </script>
 </head>
 <body>
+    <div style="height:500px;;width:100px;float:left;">
+        <nav style="position:fixed;top:0;left:0;width:100px;">
+            {% for name in names %}
+                <a href="{% url 'show' page_id='test2015' %}" target="preview_page">{{ name }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+    <div style="height:90%;width:50%;float:left;">
+        <iframe style="width:100%"
+                id="preview_page"
+                name="preview_page"></iframe>
+    </div>
+    <div style="position:fixed;bottom:0px;width:100%;">
+        <form style="padding:0px;margin:0;"
+              id="sender"
+            enctype="multipart/form-data"
+            method="POST"
+            target="preview_page">
+            <textarea id="content" name="content" style="width:80%;float:left;padding:0;margin:0"></textarea>
+            {% csrf_token %}
+            <button style="padding:0;margin:0">提交</button>
+        </form>
+    </div>
+    <div style="position:fixed;right:0; width:600px; height:100%;overflow: auto;" class="action-resizable ui-widget-content">
+        <div id="editor_holder"></div>
+        <div id="valid_indicator"></div>
+        <button id="editor_submit" style="padding:0;margin:0">提交</button>
+        <button id="editor_restore" style="padding:0;margin:0">恢复</button>
+    </div>
+<script>
 
+
+</script>
 </body>
 </html>

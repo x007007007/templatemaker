@@ -55,7 +55,9 @@ ROOT_URLCONF = 'templatewriter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['{}/templatewriter/template'.format(BASE_DIR)],
+        'DIRS': ['{}/templatewriter/template'.format(BASE_DIR).replace('\\', '/'),
+                 '/'.format(BASE_DIR).replace('\\', '/')
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,5 +100,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "templatewriter/static"),
+    os.path.join(BASE_DIR, "statics"),
+)
 
 STATIC_URL = '/static/'
