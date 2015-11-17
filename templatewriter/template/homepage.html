@@ -77,6 +77,7 @@
         })
     });
     /*  */
+    window.editor = null;
     $(function(){
         $("nav>a").each(function(key, dom){
             $(dom).on('click', function(){
@@ -84,7 +85,11 @@
                 $("#sender").prop('action', dom.href);
                 $(dom).parent().find('.active').removeClass('active');
                 $(dom).addClass('active');
-                var editor = editorCreate(dom.href+'?type=schema');
+                if(!window.editor){
+                  window.editor = editorCreate(dom.href+'?type=schema');
+                }else{
+                  window.editor.schema = dom.href+'?type=schema'
+                }
                 console.log(editor);
             });
         });
