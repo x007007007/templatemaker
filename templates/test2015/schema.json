@@ -94,11 +94,12 @@
           "maximum": 10,
           "minimum": 1
         }
-      }
+      },
+      "required": ["time", "评分倾向性", "评分一致性", "评分一致分"]
     },
     "情绪倾向": {
       "type": "array",
-      "items": [{
+      "items": {
         "type": "object",
         "title": "维度",
         "properties": {
@@ -111,19 +112,21 @@
           },
           "positive": {
             "type": "array",
-            "item": [{
+            "title": "优点",
+            "items": {
               "type": "string"
-            }]
+            }
           },
           "negative": {
             "type": "array",
-            "item": [{
+            "title": "缺点",
+            "items": {
               "type": "string"
-            }]
+            }
           }
         },
         "required": ["name", "score", "positive", "negative"]
-      }]
+      }
     }
   }
 }
